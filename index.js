@@ -11,8 +11,9 @@ window.addEventListener("load", () => {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min);
   }
-  
-  const container = document.getElementById("container");
+
+  const radicals = document.getElementById("radicals");
+  const alphabeticals = document.getElementById("alphabeticals");
   const table = document.getElementById("table");
   const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
   
@@ -20,19 +21,21 @@ window.addEventListener("load", () => {
   const tW = tb.width/2;
   const tH = tb.height/2;
 
-  function display(ch) {
+  function display(ch, isAlphabet=false) {
     const span = document.createElement("button");
     span.classList = "bit";
     span.innerText = ch;
     span.style.left = `${getRandomInt(wOffset,w)}px`;
     span.style.top = `${getRandomInt(hHalf+(h/10),h)}px`;
     addDrag(span);
-    container.appendChild(span);
+    if (isAlphabet) alphabeticals.appendChild(span);
+    else radicals.appendChild(span);
   }
 
   const cells = Array.from(table.querySelectorAll("td"));
   function handleDrag(e, elem, isMobile = false) {
     let x, y;
+    elem.style.position = "absolute";
     if (isMobile) { 
       x = e.targetTouches[0].clientX - tb.left;
       y = e.targetTouches[0].clientY - tb.top;
@@ -41,7 +44,7 @@ window.addEventListener("load", () => {
       y = e.clientY - tb.top;
     }
     if (x < 0 || x > tb.width || y < 0 || y > tb.height) return;
-    if (container.contains(elem)) container.removeChild(elem);
+    if (radicals.contains(elem)) radicals.removeChild(elem);
     else return;
     let cell;
     if (x < tW && y < tH) {
@@ -83,6 +86,6 @@ window.addEventListener("load", () => {
 
   fetch("https://annaylin.com/100-days/sunmoonsky/radicals.json").then((r) => r.json()).then((d) => {
     Array.from(d).forEach((radical) => display(radical));
-    alphabet.forEach((letter) => display(letter));
+    alphabet.forEach((letter) => display(letter, true));
   });
 });
