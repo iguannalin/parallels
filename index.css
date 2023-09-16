@@ -21,15 +21,18 @@ body {
 }
 
 #container {
-  width: 100vw;
-  height: 100vh;
   display: flex;
   flex-flow: row;
+  width: 100vw;
+  height: 100vh;
+  touch-action: none;
 }
 
 #radicals {
-  flex: 2;
-  padding: 16px 24px;
+  /* padding: 16px 16px 0 24px; */
+  width: 50vw;
+  /* position: fixed; */
+  overflow: scroll;
 }
 
 button {
@@ -38,28 +41,42 @@ button {
   border: 1px dashed var(--shadow-color);
   line-height: 2em;
   font-size: 1.2em;
-  padding: 0 10px;
+  width: 43px;
   color: var(--main-text-color);
+}
+
+button:hover {
   text-shadow: var(--shadow-color) -2px 2px 8px;
 }
 
+button:active {
+  background-color: var(--shadow-color);
+}
+
+#grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  height: 80vh;
+}
+
 #maker {
-  flex: 3;
+  overflow: scroll;
+  width: 50vw;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-flow: column;
 }
 
-#grid {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 #alphabeticals {
-  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  height: auto;
+  flex-flow: row wrap;
+  overflow-y: scroll;
 }
 
 table {
@@ -77,6 +94,9 @@ td {
   color: red;
   text-shadow: none;
   text-transform: lowercase;
+  background: url("https://www.an2.net/zi/images/bg12.svg") center center no-repeat;
+  color: rgb(184, 184, 184);
+  font-family: 楷体, 楷体_gb2312, "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, DFKai-SB, TW-Kai, web-fz;
 }
 
 #td-1 {

@@ -20,6 +20,7 @@ window.addEventListener("load", () => {
   const tb = table.getBoundingClientRect();
   const tW = tb.width/2;
   const tH = tb.height/2;
+  const cells = Array.from(table.querySelectorAll("td"));
 
   function display(ch, isAlphabet=false) {
     const span = document.createElement("button");
@@ -32,7 +33,6 @@ window.addEventListener("load", () => {
     else radicals.appendChild(span);
   }
 
-  const cells = Array.from(table.querySelectorAll("td"));
   function handleDrag(e, elem, isMobile = false) {
     let x, y;
     elem.style.position = "absolute";
