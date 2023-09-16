@@ -36,29 +36,34 @@ window.addEventListener("load", () => {
   function handleDrag(e, elem, isMobile = false) {
     let x, y;
     elem.style.position = "absolute";
-    if (isMobile) { 
-      x = e.targetTouches[0].clientX - tb.left;
-      y = e.targetTouches[0].clientY - tb.top;
-    } else {
-      x = e.clientX - tb.left;
-      y = e.clientY - tb.top;
-    }
-    if (x < 0 || x > tb.width || y < 0 || y > tb.height) return;
-    if (radicals.contains(elem)) radicals.removeChild(elem);
-    else return;
-    let cell;
-    if (x < tW && y < tH) {
-      cell = cells[0];
-    } else if (x > tW && y < tH) {
-      cell = cells[1];
-    } else if (x <= tW && y >= tH) {
-      cell = cells[2];
-    } else if (x >= tW && y >= tH) {
-      cell = cells[3];
-    }
-    if (!cell) return;
-    cell.innerHTML = elem.innerText;
-    cell.style.transform = `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`;
+    // if (isMobile) { 
+    //   x = e.targetTouches[0].clientX - tb.left;
+    //   y = e.targetTouches[0].clientY - tb.top;
+    // } else {
+    //   x = e.clientX - tb.left;
+    //   y = e.clientY - tb.top;
+    // }
+    // if (x < 0 || x > tb.width || y < 0 || y > tb.height) return;
+    // if (radicals.contains(elem)) radicals.removeChild(elem);
+    // else return;
+    // let cell;
+    // if (x < tW && y < tH) {
+    //   cell = cells[0];
+    // } else if (x > tW && y < tH) {
+    //   cell = cells[1];
+    // } else if (x <= tW && y >= tH) {
+    //   cell = cells[2];
+    // } else if (x >= tW && y >= tH) {
+    //   cell = cells[3];
+    // }
+    // if (!cell) return;
+    // cell.innerHTML = elem.innerText;
+    // cell.style.transform = `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`;
+    elem.style.transform = `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`;
+    elem.style.fontSize = `${getRandomInt(36,48)}px`;
+    elem.style.border = "none";
+    elem.classList = "";
+    elem.style.color = "red";
   }
 
   // code from https://codepen.io/deepakkadarivel/pen/LrGEdL

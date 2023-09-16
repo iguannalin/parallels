@@ -38,6 +38,10 @@ body {
 button {
   cursor: pointer;
   background-color: transparent;
+  border: none;
+}
+
+.bit {
   border: 1px dashed var(--shadow-color);
   line-height: 2em;
   font-size: 1.2em;
@@ -45,11 +49,11 @@ button {
   color: var(--main-text-color);
 }
 
-button:hover {
+.bit:hover {
   text-shadow: var(--shadow-color) -2px 2px 8px;
 }
 
-button:active {
+.bit:active {
   background-color: var(--shadow-color);
 }
 
@@ -80,7 +84,7 @@ button:active {
 }
 
 table {
-  background-color: #e5e6cbf5;
+  background-color: #f3debe;
   border-collapse: collapse;
   border: 3px red dashed;
 }
@@ -90,11 +94,11 @@ td {
   box-sizing: border-box;
   width: 100px;
   height: 100px;
-  font-size: 38px;
+  font-size: 48px;
   color: red;
   text-shadow: none;
   text-transform: lowercase;
-  background: url("https://www.an2.net/zi/images/bg12.svg") center center no-repeat;
+  /* background: url("https://www.an2.net/zi/images/bg12.svg") center center no-repeat; */
   color: rgb(184, 184, 184);
   font-family: 楷体, 楷体_gb2312, "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, DFKai-SB, TW-Kai, web-fz;
 }
