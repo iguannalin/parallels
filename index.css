@@ -18,6 +18,8 @@ body {
   text-shadow: var(--shadow-color) -2px 2px 8px;
   font-family: sans-serif, "helvetica";
   margin: 0 auto;
+  overflow: hidden;
+  z-index: 100;
 }
 
 #container {
@@ -26,6 +28,7 @@ body {
   width: 100vw;
   height: 100vh;
   touch-action: none;
+  z-index: 10;
 }
 
 #radicals {
@@ -92,6 +95,7 @@ button {
 }
 
 table {
+  z-index: 1;
   background-color: #f3debe;
   border-collapse: collapse;
   border: 3px red dashed;
@@ -146,4 +150,8 @@ td {
         rgba(255,0,0,1) 50%,
         rgba(255,0,0,0) calc(50% + 0.1px),
         rgba(255,0,0,0) 100%);
+}
+
+body button {
+  z-index: 2 !important;
 }

@@ -37,7 +37,7 @@ window.addEventListener("load", () => {
     let x, y;
     
     elem = elem.cloneNode(true);
-    document.body.appendChild(elem);
+    if (Math.random() > 0.5) document.body.appendChild(elem);
     // console.log(elem);
 
     if (isMobile) {
@@ -81,10 +81,10 @@ window.addEventListener("load", () => {
 
   // code from https://codepen.io/deepakkadarivel/pen/LrGEdL
   function addDrag(box) {
-    let t = 50;
+    let t = 0;
     function onMove(e, isMobile = false) {
         e.preventDefault();
-        setTimeout(() => { handleDrag(e, box, isMobile) }, t+=50);
+        setTimeout(() => { handleDrag(e, box, isMobile) }, t+=5);
     }
     box.addEventListener('mousedown', function() {
       document.addEventListener('mousemove', onMove);
