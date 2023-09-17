@@ -35,6 +35,19 @@ window.addEventListener("load", () => {
 
   function handleDrag(e, elem, isMobile = false) {
     let x, y;
+    
+    elem = elem.cloneNode(true);
+    document.body.appendChild(elem);
+    // console.log(elem);
+
+    if (isMobile) {
+      var touchLocation = e.targetTouches[0];
+      elem.style.left = touchLocation.pageX - 10 + 'px';
+      elem.style.top = touchLocation.pageY - 10 + 'px';
+    } else {
+      elem.style.left = e.pageX - 10 + 'px';
+      elem.style.top = e.pageY - 10 + 'px';
+    }
     elem.style.position = "absolute";
     // if (isMobile) { 
     //   x = e.targetTouches[0].clientX - tb.left;
@@ -68,17 +81,10 @@ window.addEventListener("load", () => {
 
   // code from https://codepen.io/deepakkadarivel/pen/LrGEdL
   function addDrag(box) {
+    let t = 50;
     function onMove(e, isMobile = false) {
         e.preventDefault();
-        handleDrag(e, box, isMobile);
-        if (isMobile) {
-          var touchLocation = e.targetTouches[0];
-          box.style.left = touchLocation.pageX - 10 + 'px';
-          box.style.top = touchLocation.pageY - 10 + 'px';
-        } else {
-          box.style.left = e.pageX - 10 + 'px';
-          box.style.top = e.pageY - 10 + 'px';
-        }
+        setTimeout(() => { handleDrag(e, box, isMobile) }, t+=50);
     }
     box.addEventListener('mousedown', function() {
       document.addEventListener('mousemove', onMove);
