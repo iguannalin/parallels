@@ -1,10 +1,6 @@
 window.addEventListener("load", () => {
-  const wOffset = (window.innerWidth/10);
-  const w = window.innerWidth - wOffset;
-  const hOffset = (window.innerHeight/15);
-  const h = window.innerHeight - hOffset;
-  const wHalf = (w/2);
-  const hHalf = (h/2);
+  const w = window.innerWidth - 100;
+  const h = window.innerHeight - 200;
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -12,91 +8,40 @@ window.addEventListener("load", () => {
     return Math.floor(Math.random() * (max - min) + min);
   }
 
-  const radicals = document.getElementById("radicals");
-  const alphabeticals = document.getElementById("alphabeticals");
-  const table = document.getElementById("table");
-  const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-  
-  const tb = table.getBoundingClientRect();
-  const tW = tb.width/2;
-  const tH = tb.height/2;
-  const cells = Array.from(table.querySelectorAll("td"));
-
-  function display(ch, isAlphabet=false) {
-    const span = document.createElement("button");
-    span.classList = "bit";
-    span.innerText = ch;
-    span.style.left = `${getRandomInt(wOffset,w)}px`;
-    span.style.top = `${getRandomInt(hHalf+(h/10),h)}px`;
-    addDrag(span);
-    if (isAlphabet) alphabeticals.appendChild(span);
-    else radicals.appendChild(span);
+  function createTable(first) {
+    if (!first) return;
+    const table = document.getElementById("grid");
+    for (let _ = 0; _ < Math.floor(w/80); _++) {
+      const tr = document.createElement("tr");
+      for (let __ = 0; __ < Math.round(h/80); __++) {
+        const td = first.cloneNode(true);
+        if (_ == 0 && __ == 0) td.addEventListener("click", () => window.location.reload());
+        td.addEventListener("click", (e) => e.target.style.color="black");
+        td.classList = "gray";
+        tr.appendChild(td);
+      }
+      table.appendChild(tr);
+    }
   }
 
-  function handleDrag(e, elem, isMobile = false) {
-    let x, y;
-    
-    elem = elem.cloneNode(true);
-    if (Math.random() > 0.5) document.body.appendChild(elem);
-    // console.log(elem);
-
-    if (isMobile) {
-      var touchLocation = e.targetTouches[0];
-      elem.style.left = touchLocation.pageX - 10 + 'px';
-      elem.style.top = touchLocation.pageY - 10 + 'px';
-    } else {
-      elem.style.left = e.pageX - 10 + 'px';
-      elem.style.top = e.pageY - 10 + 'px';
+  function generateFirst(radicals, alphabet) {
+    const initial = document.createElement("td");
+    for (let i = 0; i < 6; i++) {
+      let ch;
+      if (Math.random() > 0.5) ch = radicals[getRandomInt(0, radicals.length)];
+      else ch = alphabet[getRandomInt(0,alphabet.length)];
+      const span = document.createElement("span");
+      span.innerText = ch;
+      initial.appendChild(span);
     }
-    elem.style.position = "absolute";
-    // if (isMobile) { 
-    //   x = e.targetTouches[0].clientX - tb.left;
-    //   y = e.targetTouches[0].clientY - tb.top;
-    // } else {
-    //   x = e.clientX - tb.left;
-    //   y = e.clientY - tb.top;
-    // }
-    // if (x < 0 || x > tb.width || y < 0 || y > tb.height) return;
-    // if (radicals.contains(elem)) radicals.removeChild(elem);
-    // else return;
-    // let cell;
-    // if (x < tW && y < tH) {
-    //   cell = cells[0];
-    // } else if (x > tW && y < tH) {
-    //   cell = cells[1];
-    // } else if (x <= tW && y >= tH) {
-    //   cell = cells[2];
-    // } else if (x >= tW && y >= tH) {
-    //   cell = cells[3];
-    // }
-    // if (!cell) return;
-    // cell.innerHTML = elem.innerText;
-    // cell.style.transform = `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`;
-    elem.style.transform = `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`;
-    elem.style.fontSize = `${getRandomInt(36,48)}px`;
-    elem.style.border = "none";
-    elem.classList = "";
-    elem.style.color = "red";
-  }
-
-  // code from https://codepen.io/deepakkadarivel/pen/LrGEdL
-  function addDrag(box) {
-    let t = 0;
-    function onMove(e, isMobile = false) {
-        e.preventDefault();
-        setTimeout(() => { handleDrag(e, box, isMobile) }, t+=5);
-    }
-    box.addEventListener('mousedown', function() {
-      document.addEventListener('mousemove', onMove);
-    })
-    document.addEventListener('mouseup', function(e) {
-      document.removeEventListener('mousemove', onMove);
-    });
-    box.addEventListener('touchmove', (e) => onMove(e, true));
+    return initial;
   }
 
   fetch("https://annaylin.com/100-days/sunmoonsky/radicals.json").then((r) => r.json()).then((d) => {
-    Array.from(d).forEach((radical) => display(radical));
-    alphabet.forEach((letter) => display(letter, true));
+    const initial = generateFirst(
+      Array.from(d), 
+      ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+    );
+    createTable(initial);
   });
 });
