@@ -26,11 +26,13 @@ window.addEventListener("load", () => {
 
   function generateFirst(radicals, alphabet) {
     const initial = document.createElement("td");
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < getRandomInt(5,7); i++) {
       let ch;
       if (Math.random() > 0.5) ch = radicals[getRandomInt(0, radicals.length)];
       else ch = alphabet[getRandomInt(0,alphabet.length)];
       const span = document.createElement("span");
+      span.style.transform = `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`;
+      span.style.fontSize = `${getRandomInt(34,36)}px`;
       span.innerText = ch;
       initial.appendChild(span);
     }

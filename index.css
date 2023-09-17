@@ -4,7 +4,7 @@
 :root {
   --main-bg-color: rgb(35, 35, 35);
   --main-text-color: #f9faffde;
-  --shadow-color: #858ebc;
+  --shadow-color: #eaeaea;
 }
 
 html {
@@ -37,15 +37,15 @@ table {
 }
 
 table td {
-  border: 2px red dashed;
-  background-color: #f3debe;
+  background-color: #fdfbf9;
   display: flex;
   border: 1px red dashed;
   box-sizing: border-box;
   width: 80px;
   height: 80px;
+  padding: 10px;
   font-size: 36px;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   flex-flow: row wrap;
   text-transform: lowercase;
@@ -56,6 +56,16 @@ table td {
 
 tr:first-child td:first-child {
   color: black;
+}
+
+tr:first-child td:first-child::before {
+  content: "(refresh)";
+  color: rgb(184, 184, 184);
+  font-family: serif;
+  font-size: 12px;
+  position: absolute;
+  text-align: center;
+  top: 65px;
 }
 
 .gray {
