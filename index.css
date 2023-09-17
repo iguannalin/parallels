@@ -22,17 +22,22 @@ body {
 
 #container {
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
   width: 100vw;
   height: 100vh;
   touch-action: none;
 }
 
 #radicals {
-  /* padding: 16px 16px 0 24px; */
-  width: 50vw;
+  /*padding: 16px 16px 0 24px; */
+  width: 100vw;
+  justify-content: flex-start;
+  display: flex;
+  height: 45%;
   /* position: fixed; */
+  flex-flow: column wrap;
   overflow: scroll;
+  align-items: center;
 }
 
 button {
@@ -57,30 +62,33 @@ button {
   background-color: var(--shadow-color);
 }
 
+#maker {
+  overflow: scroll;
+  width: 100vw;
+  height: 55%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: column;
+}
+
 #grid {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-flow: column;
-  height: 80vh;
-}
-
-#maker {
-  overflow: scroll;
-  width: 50vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column;
+  /* height: 50%; */
+  margin-top: 100px;
 }
 
 #alphabeticals {
+  width: 100vw;
+  /* justify-content: flex-end; */
+  /* align-items: flex-end; */
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
-  height: auto;
-  flex-flow: row wrap;
-  overflow-y: scroll;
+  height: 86px;
+  flex-flow: column wrap;
+  overflow: scroll;
 }
 
 table {
