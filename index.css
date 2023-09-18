@@ -14,7 +14,6 @@ html {
 
 body {
   background-color: var(--main-bg-color);
-  /* text-shadow: var(--shadow-color) -2px 2px 8px; */
   font-family: sans-serif, "helvetica";
   margin: 0 auto;
 }
@@ -59,17 +58,17 @@ tr:first-child td:first-child {
 }
 
 tr:first-child td:first-child::before {
-  content: "(refresh)";
-  color: rgb(184, 184, 184);
+  content: "↺";
+  color: #afafaf;
   font-family: serif;
-  font-size: 12px;
+  font-size: 18px;
   position: absolute;
   text-align: center;
-  top: 65px;
+  top: 55px;
 }
 
 .gray {
-  color: rgb(184, 184, 184);
+  color: #afafaf;
 }
 
 table td span {
@@ -86,13 +85,13 @@ td {
     linear-gradient(to top left,
         rgba(255,0,0,0) 0%,
         rgba(255,0,0,0) calc(50% - 0.1px),
-        rgba(255,0,0,1) 50%,
+        rgba(255,0,0,0.5) 50%,
         rgba(255,0,0,0) calc(50% + 0.1px),
         rgba(255,0,0,0) 100%),
     linear-gradient(to top right,
         rgba(255,0,0,0) 0%,
         rgba(255,0,0,0) calc(50% - 0.1px),
-        rgba(255,0,0,1) 50%,
+        rgba(255,0,0,0.5) 50%,
         rgba(255,0,0,0) calc(50% + 0.1px),
         rgba(255,0,0,0) 100%);
 }
