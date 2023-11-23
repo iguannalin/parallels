@@ -6,31 +6,46 @@
         <meta name="viewport" content="width=device-width, first-scale=1">
     </head>
     <body>
+        <a id="refresh" href=".">↺</a>
         <div id="main">
             <table id="grid"></table>
         </div>
+        <div id="desc"><p id="caption">hover over a character</p></div>
         <script>
             let createElement = (key) => document.createElement(key);
             let range = n => [...Array(n).keys()];
             let m = (fx) => Math[fx];
             let getRandomInt = (min, max) => m("floor")(m("random")() * (m("floor")(max) - m("ceil")(min)) + m("ceil")(min));
             let computeLoop = (iteration, fx) => range(iteration).forEach((k,i) => fx(i));
-            let counter= "0123456789abcdef".split("");
+            let counter= "0123456789abcdef".split(""); // counter for unicode
+            let current = 0; // index for unicode counter
             let getIndex = (function(row, col=false) {
                 let rCounter = 0;
                 let cCounter = 0;
                 return () => row ? rCounter++ : cCounter++;
             }());
-            let current = 0;
             let radicals = range(214).map((index) => {
                 if (index%16==0) current = getIndex(true)%14;
                 return String.fromCodePoint(`0x2f${counter[current]}${counter[getIndex(false,true)%16]}`);
             }).filter((ch) => /\p{Script=Han}/u.test(ch));
             let alphabet = range(26).map((index) => `&#${96+index};`);
             let first = createElement("a");
-            computeLoop(getRandomInt(5,7), (i) => {
-                let ch = (i == 0 || getRandomInt(0,10) > 3) ? radicals[getRandomInt(0,204)] : alphabet[getRandomInt(0,26)];
+
+            let chs = []; // testing
+
+            // computeLoop(getRandomInt(5,7), (i) => {
+            computeLoop(5, (i) => {
+                let ch = [
+                "⽣",
+                "&#109;",
+                "⽘",
+                "&#107;",
+                "⾟"
+                ][i];
+                // let ch = (i == 0 || getRandomInt(0,10) > 3) ? radicals[getRandomInt(0,204)] : alphabet[getRandomInt(0,26)];
                 let span = createElement("span");
+
+                chs.push(ch); // testing
                 Object.assign(span.style, 
                 {"transform": `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`,
                 "font-size": `${getRandomInt(34,36)}px`}
@@ -42,22 +57,41 @@
                 let tr = createElement("tr");
                 computeLoop(m("round")((window.innerHeight - 200)/80), () => {
                     let a = first.cloneNode(true);
-                    a.onclick = (e) => e.target.classList.add("black");
+                    a.onclick = (e) => (e.target.children.length < 1) ? e.target.classList.add("black") : 0;
+                    a.addEventListener('mouseover', (e) => (e.target.children.length < 1) ? (document.getElementById("caption").innerText = `${e.target.innerHTML} &#${e.target.innerHTML.codePointAt(0)}`) : 0 );
                     tr.appendChild(a);
                 });
                 document.getElementById("grid").appendChild(tr);
             });
         </script>
         <style>
-            #main, table, #main a, span {
+            body { 
+            background-color: white;
+            margin: 0 auto;
+            font-family: serif;
+            /* font-family: "Noto Sans CJK JP", Arial, cursive; */
+            /* font-family: 楷体, 楷体_gb2312, "Kaiti SC", Arial, cursive; */
+            /* font-family: "WenQuanYi Micro Hei", "SimSun"; */
+            /* font-family: 'Comic Sans MS', cursive; */
+            } #refresh {
+            text-decoration: none;
+            color: #bfbfbf;
+            font-size: 20px;
+            font-weight: 500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 16px 0 8px;
+            } #main, table, #main a, span {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-flow: row wrap;
             } #main {
-            color: #afafaf;
+            color: #bfbfbf;
             width: 100vw;
-            height: 100vh;
+            height: 80vh;
             } tr:first-child a:first-child, .black {
             color: black;
             } #main a {
@@ -68,13 +102,21 @@
             height: 80px;
             padding: 10px;
             justify-content: space-around;
-            cursor: pointer;
-            font-family: 楷体, 楷体_gb2312, "Kaiti SC";
+            cursor:crosshair;
+            font-weight: 600;
             background:
             linear-gradient(to top left,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%),linear-gradient(to top right,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%);
             } span {
             margin: -17px 3px;
             max-width: 20px;
+            } span:hover {
+            color: black;
+            opacity: 0.8;
+            } #desc {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
             }
         </style>
     </body>
