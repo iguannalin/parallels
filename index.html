@@ -28,6 +28,11 @@
                 if (index%16==0) current = getIndex(true)%14;
                 return String.fromCodePoint(`0x2f${counter[current]}${counter[getIndex(false,true)%16]}`);
             }).filter((ch) => /\p{Script=Han}/u.test(ch));
+            console.log(radicals);
+            console.log(range(214).map((index) => {
+                if (index%16==0) current = getIndex(true)%14;
+                return `0x2f${counter[current]}${counter[getIndex(false,true)%16]}` + ": " + String.fromCodePoint(`0x2f${counter[current]}${counter[getIndex(false,true)%16]}`);
+            }));
             let alphabet = range(26).map((index) => `&#${96+index};`);
             let first = createElement("a");
 
@@ -58,7 +63,7 @@
                 computeLoop(m("round")((window.innerHeight - 200)/80), () => {
                     let a = first.cloneNode(true);
                     a.onclick = (e) => (e.target.children.length < 1) ? e.target.classList.add("black") : 0;
-                    a.addEventListener('mouseover', (e) => (e.target.children.length < 1) ? (document.getElementById("caption").innerText = `${e.target.innerHTML} &#${e.target.innerHTML.codePointAt(0)}`) : 0 );
+                    a.addEventListener('mouseover', (e) => (e.target.children.length < 1) ? (document.getElementById("caption").innerText = `${e.target.innerHTML} U+${e.target.innerHTML.codePointAt(0)}`) : 0 );
                     tr.appendChild(a);
                 });
                 document.getElementById("grid").appendChild(tr);
