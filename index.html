@@ -19,20 +19,25 @@
             let computeLoop = (iteration, fx) => range(iteration).forEach((k,i) => fx(i));
             let counter= "0123456789abcdef".split(""); // counter for unicode
             let current = 0; // index for unicode counter
-            let getIndex = (function(row, col=false) {
-                let rCounter = 0;
+            let getCIndex = (function() { // col by default
                 let cCounter = 0;
-                return () => row ? rCounter++ : cCounter++;
+                return () => cCounter++;
             }());
+            let getRIndex = (function() {
+                let rCounter = 0;
+                return () => rCounter++;
+            }())
             let radicals = range(214).map((index) => {
-                if (index%16==0) current = getIndex(true)%14;
-                return String.fromCodePoint(`0x2f${counter[current]}${counter[getIndex(false,true)%16]}`);
+                if (index%16==0) current = getCIndex()%14;
+                return String.fromCodePoint(`0x2f${counter[current]}${counter[getRIndex()%16]}`);
             }).filter((ch) => /\p{Script=Han}/u.test(ch));
-            console.log(radicals);
-            console.log(range(214).map((index) => {
-                if (index%16==0) current = getIndex(true)%14;
-                return `0x2f${counter[current]}${counter[getIndex(false,true)%16]}` + ": " + String.fromCodePoint(`0x2f${counter[current]}${counter[getIndex(false,true)%16]}`);
-            }));
+
+            // console.log(range(214).map((index) => {
+            //     if (index%16==0) current = getCIndex()%14;
+            //     return (`${counter[current]}${counter[getRIndex()%16]}`);
+            //     // return `0x2f${counter[current]}${counter[getIndex(false,true)%16]}` + ": " + String.fromCodePoint(`0x2f${counter[current]}${counter[getIndex(false,true)%16]}`);
+            // }));
+            console.log({radicals});
             let alphabet = range(26).map((index) => `&#${96+index};`);
             let first = createElement("a");
 
@@ -63,7 +68,7 @@
                 computeLoop(m("round")((window.innerHeight - 200)/80), () => {
                     let a = first.cloneNode(true);
                     a.onclick = (e) => (e.target.children.length < 1) ? e.target.classList.add("black") : 0;
-                    a.addEventListener('mouseover', (e) => (e.target.children.length < 1) ? (document.getElementById("caption").innerText = `${e.target.innerHTML} U+${e.target.innerHTML.codePointAt(0)}`) : 0 );
+                    a.addEventListener('mouseover', (e) => (e.target.children.length < 1) ? (document.getElementById("caption").innerText = `${e.target.innerHTML} U+2${e.target.innerHTML.codePointAt(0)}`) : 0 );
                     tr.appendChild(a);
                 });
                 document.getElementById("grid").appendChild(tr);
