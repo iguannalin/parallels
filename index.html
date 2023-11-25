@@ -6,11 +6,11 @@
         <meta name="viewport" content="width=device-width">
     </head>
     <body>
-        <a id="refresh" href=".">↺</a>
-        <div id="main">
-            <table id="grid"></table>
+        <a id="_r" href=".">↺</a>
+        <div id="_m">
+            <table id="_g"></table>
         </div>
-        <div id="desc"><p id="caption">hover over a character</p></div>
+        <div id="_d"><p id="_c">hover over a character</p></div>
         <script>
             let createElement = (key) => document.createElement(key);
             let range = n => [...Array(n).keys()];
@@ -18,23 +18,11 @@
             let getRandomInt = (min, max) => m("floor")(m("random")() * (m("floor")(max) - m("ceil")(min)) + m("ceil")(min));
             let computeLoop = (iteration, fx) => range(iteration).forEach((k,i) => fx(i));
             let counter= "0123456789abcdef".split(""); // counter for unicode
-            let current = 0; // index for unicode counter
-            let getCIndex = (function() { // col by default
-                let cCounter = 0;
-                return () => cCounter++;
-            }());
-            let getRIndex = (function() {
-                let rCounter = 0;
-                return () => rCounter++;
-            }());
-            let radicals = range(214).map((index) => {
-                if (index%16==0) current = getCIndex()%14;
-                return String.fromCodePoint(`0x2f${counter[current]}${counter[getRIndex()%16]}`);
-            }).filter((ch) => /\p{Script=Han}/u.test(ch));
-            let alphabet = range(26).map((index) => `&#${96+index};`);
+            let getRadical = (i) => String.fromCodePoint(`0x2f${counter[m("floor")(i/10)%14]}${counter[m("floor")(i/100)%16]}`);
+            let getAlphabet = (i) => `&#${96+i};`;
             let first = createElement("a");
             computeLoop(getRandomInt(5,7), (i) => {
-                let ch = (i == 0 || getRandomInt(0,10) > 3) ? radicals[getRandomInt(0,214)] : alphabet[getRandomInt(0,26)];
+                let ch = (i == 0 || getRandomInt(0,10) > 3) ? getRadical(getRandomInt(0,214)) : getAlphabet(getRandomInt(0,26));
                 let span = createElement("span");
                 Object.assign(span.style, 
                 {"transform": `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`,
@@ -48,14 +36,14 @@
                 computeLoop(m("round")((window.innerHeight - 200)/80), () => {
                     let a = first.cloneNode(true);
                     a.onclick = (e) => (e.target.children.length < 1) ? e.target.classList.add("black") : 0;
-                    a.addEventListener('mouseover', (e) => (e.target.children.length < 1) ? (document.getElementById("caption").innerText = `${e.target.innerHTML} U+${e.target.innerHTML.codePointAt(0)}`) : 0 );
+                    a.addEventListener('mouseover', (e) => (e.target.children.length < 1) ? (document.getElementById("_c").innerText = `${e.target.innerHTML}: U+${e.target.innerHTML.codePointAt(0)}`) : 0 );
                     tr.appendChild(a);
                 });
-                document.getElementById("grid").appendChild(tr);
+                document.getElementById("_g").appendChild(tr);
             });
         </script>
         <style>
-            #refresh, #desc, #main, table, #main a, span {
+            #_r, #_d, #_m, table, #_m a, span {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -64,26 +52,23 @@
             background-color: white;
             margin: 0 auto;
             font-family: serif;
+            color:#bfbfbf;
             /* font-family: "Noto Sans CJK JP", Arial, cursive; */
             /* font-family: 楷体, 楷体_gb2312, "Kaiti SC", Arial, cursive; */
             /* font-family: "WenQuanYi Micro Hei", "SimSun"; */
             /* font-family: 'Comic Sans MS', cursive; */
-            } #refresh {
+            } #_r {
             text-decoration: none;
-            color: #bfbfbf;
             font-size: 20px;
             font-weight: 500;
             box-sizing: border-box;
             padding: 16px 0 8px;
-            } #main, table, #main a, span {
+            } #_m, table, #_m a, span {
             flex-flow: row wrap;
-            } #main {
-            color: #bfbfbf;
+            } #_m {
             width: 100vw;
             height: 80vh;
-            } tr:first-child a:first-child, .black {
-            color: black;
-            } #main a {
+            } #_m a {
             border: 1px red dashed;
             overflow: hidden;
             box-sizing: border-box;
@@ -98,7 +83,7 @@
             } span {
             margin: -17px 3px;
             max-width: 20px;
-            } span:hover {
+            } span:hover, tr:first-child a:first-child, .black, #_d {
             color: black;
             opacity: 0.8;
             }
