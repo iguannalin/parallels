@@ -3,7 +3,7 @@
     <head>
         <title>parallels</title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, first-scale=1">
+        <meta name="viewport" content="width=device-width">
     </head>
     <body>
         <a id="refresh" href=".">↺</a>
@@ -31,31 +31,15 @@
                 if (index%16==0) current = getCIndex()%14;
                 return String.fromCodePoint(`0x2f${counter[current]}${counter[getRIndex()%16]}`);
             }).filter((ch) => /\p{Script=Han}/u.test(ch));
-
-            // console.log(range(214).map((index) => {
-            //     if (index%16==0) current = getCIndex()%14;
-            //     return (`${counter[current]}${counter[getRIndex()%16]}`);
-            //     // return `0x2f${counter[current]}${counter[getIndex(false,true)%16]}` + ": " + String.fromCodePoint(`0x2f${counter[current]}${counter[getIndex(false,true)%16]}`);
-            // }));
-            console.log({radicals});
             let alphabet = range(26).map((index) => `&#${96+index};`);
             let first = createElement("a");
 
-            let chs = []; // testing
-
-            // computeLoop(getRandomInt(5,7), (i) => {
-            computeLoop(5, (i) => {
-                let ch = [
-                "⽣",
-                "&#109;",
-                "⽘",
-                "&#107;",
-                "⾟"
-                ][i];
-                // let ch = (i == 0 || getRandomInt(0,10) > 3) ? radicals[getRandomInt(0,204)] : alphabet[getRandomInt(0,26)];
+            let indices = [];
+            computeLoop(getRandomInt(5,7), (i) => {
+                let ch = (i == 0 || getRandomInt(0,10) > 3) ? radicals[getRandomInt(0,214)] : alphabet[getRandomInt(0,26)];
+                indices.push(radicals.indexOf(ch) >= 0 ? `Radical ${radicals.indexOf(ch)}` : `Alphabet ${alphabet.indexOf(ch)}`);
+                console.log({indices});
                 let span = createElement("span");
-
-                chs.push(ch); // testing
                 Object.assign(span.style, 
                 {"transform": `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`,
                 "font-size": `${getRandomInt(34,36)}px`}
@@ -68,7 +52,7 @@
                 computeLoop(m("round")((window.innerHeight - 200)/80), () => {
                     let a = first.cloneNode(true);
                     a.onclick = (e) => (e.target.children.length < 1) ? e.target.classList.add("black") : 0;
-                    a.addEventListener('mouseover', (e) => (e.target.children.length < 1) ? (document.getElementById("caption").innerText = `${e.target.innerHTML} U+2${e.target.innerHTML.codePointAt(0)}`) : 0 );
+                    a.addEventListener('mouseover', (e) => (e.target.children.length < 1) ? (document.getElementById("caption").innerText = `${indices[Array.from(e.target.parentElement.children).indexOf(e.target)]}`) : 0 );
                     tr.appendChild(a);
                 });
                 document.getElementById("grid").appendChild(tr);

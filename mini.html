@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>parallels</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <a id="refresh" href=".">↺</a>
+        <div id="main">
+            <table id="grid"></table>
+        </div>
+        <div id="desc"><p id="caption">hover over a character</p></div>
+        <script>
+          let createElement=e=>document.createElement(e),range=e=>[...Array(e).keys()],m=e=>Math[e],getRandomInt=(e,t)=>m("floor")(m("random")()*(m("floor")(t)-m("ceil")(e))+m("ceil")(e)),computeLoop=(e,t)=>range(e).forEach(((e,n)=>t(n))),counter="0123456789abcdef".split(""),current=0,getCIndex=function(){let e=0;return()=>e++}(),getRIndex=function(){let e=0;return()=>e++}(),radicals=range(214).map((e=>(e%16==0&&(current=getCIndex()%14),String.fromCodePoint(`0x2f${counter[current]}${counter[getRIndex()%16]}`)))).filter((e=>/\p{Script=Han}/u.test(e))),alphabet=range(26).map((e=>`&#${96+e};`)),first=createElement("a"),indices=[];computeLoop(getRandomInt(5,7),(e=>{let t=0==e||getRandomInt(0,10)>3?radicals[getRandomInt(0,214)]:alphabet[getRandomInt(0,26)];indices.push(radicals.indexOf(t)>=0?`Radical ${radicals.indexOf(t)}`:`Alphabet ${alphabet.indexOf(t)}`),console.log({indices:indices});let n=createElement("span");Object.assign(n.style,{transform:`scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`,"font-size":`${getRandomInt(34,36)}px`}),n.innerHTML=t,first.appendChild(n)})),computeLoop(m("floor")((window.innerWidth-100)/80),(()=>{let e=createElement("tr");computeLoop(m("round")((window.innerHeight-200)/80),(()=>{let t=first.cloneNode(!0);t.onclick=e=>e.target.children.length<1?e.target.classList.add("black"):0,t.addEventListener("mouseover",(e=>e.target.children.length<1?document.getElementById("caption").innerText=`${indices[Array.from(e.target.parentElement.children).indexOf(e.target)]}`:0)),e.appendChild(t)})),document.getElementById("grid").appendChild(e)}));
+        </script>
+        <style>
+          body{background-color:white;margin:0 auto;font-family:serif}#refresh{text-decoration:none;color:#bfbfbf;font-size:20px;font-weight:500;display:flex;justify-content:center;align-items:center;box-sizing:border-box;padding:16px 0 8px}#main,table,#main a,span{display:flex;justify-content:center;align-items:center;flex-flow:row wrap}#main{color:#bfbfbf;width:100vw;height:80vh}tr:first-child a:first-child,.black{color:black}#main a{border:1px red dashed;overflow:hidden;box-sizing:border-box;width:80px;height:80px;padding:10px;justify-content:space-around;cursor:crosshair;font-weight:600;background:linear-gradient(to top left,transparent 0,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%),linear-gradient(to top right,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%)}span{margin:-17px 3px;max-width:20px}span:hover{color:black;opacity:.8}#desc{display:flex;justify-content:center;align-items:center;font-size:16px}
+        </style>
+    </body>
+</html>
