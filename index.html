@@ -26,19 +26,15 @@
             let getRIndex = (function() {
                 let rCounter = 0;
                 return () => rCounter++;
-            }())
+            }());
             let radicals = range(214).map((index) => {
                 if (index%16==0) current = getCIndex()%14;
                 return String.fromCodePoint(`0x2f${counter[current]}${counter[getRIndex()%16]}`);
             }).filter((ch) => /\p{Script=Han}/u.test(ch));
             let alphabet = range(26).map((index) => `&#${96+index};`);
             let first = createElement("a");
-
-            let indices = [];
             computeLoop(getRandomInt(5,7), (i) => {
                 let ch = (i == 0 || getRandomInt(0,10) > 3) ? radicals[getRandomInt(0,214)] : alphabet[getRandomInt(0,26)];
-                indices.push(radicals.indexOf(ch) >= 0 ? `Radical ${radicals.indexOf(ch)}` : `Alphabet ${alphabet.indexOf(ch)}`);
-                console.log({indices});
                 let span = createElement("span");
                 Object.assign(span.style, 
                 {"transform": `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`,
@@ -52,13 +48,18 @@
                 computeLoop(m("round")((window.innerHeight - 200)/80), () => {
                     let a = first.cloneNode(true);
                     a.onclick = (e) => (e.target.children.length < 1) ? e.target.classList.add("black") : 0;
-                    a.addEventListener('mouseover', (e) => (e.target.children.length < 1) ? (document.getElementById("caption").innerText = `${indices[Array.from(e.target.parentElement.children).indexOf(e.target)]}`) : 0 );
+                    a.addEventListener('mouseover', (e) => (e.target.children.length < 1) ? (document.getElementById("caption").innerText = `${e.target.innerHTML} U+${e.target.innerHTML.codePointAt(0)}`) : 0 );
                     tr.appendChild(a);
                 });
                 document.getElementById("grid").appendChild(tr);
             });
         </script>
         <style>
+            #refresh, #desc, #main, table, #main a, span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
             body { 
             background-color: white;
             margin: 0 auto;
@@ -72,15 +73,9 @@
             color: #bfbfbf;
             font-size: 20px;
             font-weight: 500;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             box-sizing: border-box;
             padding: 16px 0 8px;
             } #main, table, #main a, span {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             flex-flow: row wrap;
             } #main {
             color: #bfbfbf;
@@ -106,11 +101,6 @@
             } span:hover {
             color: black;
             opacity: 0.8;
-            } #desc {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
             }
         </style>
     </body>
