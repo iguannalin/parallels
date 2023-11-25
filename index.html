@@ -42,7 +42,7 @@
                     Array.from(a.childNodes).forEach((sp) => {
                         sp.addEventListener("click", (e) => {
                             e.target.classList.add("black");
-                            descString = descString.includes("=") ? "" : (descString.length < (chars-1) * 4 ? descString + sp.innerText + " + " : descString + sp.innerText + " = ?");
+                            descString = descString.includes("=") ? sp.innerText + " + " : (descString.length < (chars-1) * 4 ? descString + sp.innerText + " + " : descString + sp.innerText + " = ?");
                             docElementFx("_c", false).innerText = descString;
                         });
                     });
