@@ -12,34 +12,43 @@
         </div>
         <div id="_d"><p id="_c">hover over a character</p></div>
         <script>
-            let createElement = (key) => document.createElement(key);
+            let docElementFx = (key,create=true) => document[create?"createElement":"getElementById"](key);
             let range = n => [...Array(n).keys()];
             let m = (fx) => Math[fx];
             let getRandomInt = (min, max) => m("floor")(m("random")() * (m("floor")(max) - m("ceil")(min)) + m("ceil")(min));
             let computeLoop = (iteration, fx) => range(iteration).forEach((k,i) => fx(i));
             let counter= "0123456789abcdef".split(""); // counter for unicode
-            let getRadical = (i) => String.fromCodePoint(`0x2f${counter[m("floor")(i/10)%14]}${counter[m("floor")(i/100)%16]}`);
-            let getAlphabet = (i) => `&#${96+i};`;
-            let first = createElement("a");
-            computeLoop(getRandomInt(5,7), (i) => {
-                let ch = (i == 0 || getRandomInt(0,10) > 3) ? getRadical(getRandomInt(0,214)) : getAlphabet(getRandomInt(0,26));
-                let span = createElement("span");
-                Object.assign(span.style, 
-                {"transform": `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`,
-                "font-size": `${getRandomInt(34,36)}px`}
-                );
+            let getRadical = i => String.fromCodePoint(`0x2f${counter[m("floor")(i/10)%14]}${counter[m("floor")(i/100)%16]}`);
+            let getAlphabet = i => `&#${96+i};`;
+            let first = docElementFx("a");
+            let chars = getRandomInt(5,7);
+            computeLoop(chars, i => {
+                let span = docElementFx("span");
+                let isAlpha = i === 0 || getRandomInt(0, 10) > 3 && i != 4; // increase chances of alphabet if i is 4
+                let randomIndex = getRandomInt(0, isAlpha ? 214 : 26);
+                let ch = isAlpha ? getRadical(randomIndex) : getAlphabet(randomIndex);
+                Object.assign(span.style, {
+                    "transform": `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`,
+                    "font-size": `${getRandomInt(34,36)}px`
+                });
                 span.innerHTML = ch;
                 first.appendChild(span);
             });
+            let descString = "";
             computeLoop(m("floor")((window.innerWidth - 100)/80), () => {
-                let tr = createElement("tr");
+                let tr = docElementFx("tr");
                 computeLoop(m("round")((window.innerHeight - 200)/80), () => {
                     let a = first.cloneNode(true);
-                    a.onclick = (e) => (e.target.children.length < 1) ? e.target.classList.add("black") : 0;
-                    a.addEventListener('mouseover', (e) => (e.target.children.length < 1) ? (document.getElementById("_c").innerText = `${e.target.innerHTML}: U+${e.target.innerHTML.codePointAt(0)}`) : 0 );
+                    Array.from(a.childNodes).forEach((sp) => {
+                        sp.addEventListener("click", (e) => {
+                            e.target.classList.add("black");
+                            descString = descString.includes("=") ? "" : (descString.length < (chars-1) * 4 ? descString + sp.innerText + " + " : descString + sp.innerText + " = ?");
+                            docElementFx("_c", false).innerText = descString;
+                        });
+                    });
                     tr.appendChild(a);
                 });
-                document.getElementById("_g").appendChild(tr);
+                docElementFx("_g", false).appendChild(tr);
             });
         </script>
         <style>
@@ -59,9 +68,7 @@
             /* font-family: 'Comic Sans MS', cursive; */
             } #_r {
             text-decoration: none;
-            font-size: 20px;
             font-weight: 500;
-            box-sizing: border-box;
             padding: 16px 0 8px;
             } #_m, table, #_m a, span {
             flex-flow: row wrap;
@@ -70,22 +77,19 @@
             height: 80vh;
             } #_m a {
             border: 1px red dashed;
-            overflow: hidden;
             box-sizing: border-box;
             width: 80px;
             height: 80px;
             padding: 10px;
-            justify-content: space-around;
-            cursor:crosshair;
             font-weight: 600;
             background:
             linear-gradient(to top left,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%),linear-gradient(to top right,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%);
             } span {
             margin: -17px 3px;
             max-width: 20px;
+            z-index: 100;
             } span:hover, tr:first-child a:first-child, .black, #_d {
             color: black;
-            opacity: 0.8;
             }
         </style>
     </body>
