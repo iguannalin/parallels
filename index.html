@@ -12,7 +12,7 @@
         </div>
         <div id="_d"><p id="_c"></p></div>
         <script>
-            let docElementFx = (key,create=true) => document[create?"createElement":"getElementById"](key);
+            let docElementFx = (key,create=1) => document[create?"createElement":"getElementById"](key);
             let range = n => [...Array(n).keys()];
             let m = (fx) => Math[fx];
             let getRandomInt = (min, max) => m("floor")(m("random")() * (m("floor")(max) - m("ceil")(min)) + m("ceil")(min));
@@ -44,12 +44,12 @@
                         sp.addEventListener("click", (e) => {
                             e.target.classList.add("black");
                             descString = descString.includes("=") ? sp[iT] + " + " : (descString.length < (chars-1) * 4 ? descString + sp[iT] + " + " : descString + sp[iT] + " = ?");
-                            docElementFx("_c", false)[iT] = descString;
+                            docElementFx("_c", 0)[iT] = descString;
                         });
                     });
                     tr.appendChild(a);
                 });
-                docElementFx("_g", false).appendChild(tr);
+                docElementFx("_g", 0).appendChild(tr);
             });
         </script>
         <style>
