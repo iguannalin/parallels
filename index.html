@@ -1,109 +1,121 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+<head>
+    <meta charset="utf-8">
+    <title>Title (Taper #11)</title>
+    <!-- “diaspora radicals” Copyright (C) 2023 anna y lin
 
-<!-- 
-    !!in progress!!
-    *the term for members of the chinese diaspora「僑」(qiáo), is pronounced the same as bridge「橋」(qiáo)
-    **a radical understanding is an investigation into the root of a word, or an undertaking of the fundamental core of a system of thought
+    Copying and distribution of this file, with or without modification,
+    are permitted in any medium without royalty provided the copyright 
+    notice and this notice are preserved. This file is offered as-is,
+    without any warranty.
 
-    when i was young, i always (mis)understood my existence as chinese american as a bridge* between the two parallels of my cultural identity; at home, i speak chinese and uphold chinese traditions, while outside, i speak english and act like an american. these two lives of mine co-existed, though each in isolation.
+    This is from Taper #11: Parallels, Fall 2023:
 
-    i would learn and practice writing over and over again these chinese characters but never see them outside of home. across the world from the cultural context in which they were created and used daily, these characters that were so vital in my parents' link to their roots felt little more than a jumble of radicals** i had to commit to memory.
+    https://taper.badquar.to/11/diaspora_radicals.html
 
-    this piece explores a radical rearrangement of the two parallel cultures that i find myself seeking bridges between every day. 
--->
+    the layout of this website is a replica of the popular worksheets given to children to learn a chinese character by writing it repeatedly in each grid. sometimes the grids are completely blank, and other times the character is grayed-out as a helping guide, like shown on this website.
 
-    <head>
-        <title>parallels</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-    </head>
-    <body>
-        <a id="_r" href=".">↺</a>
-        <div id="_m">
-            <table id="_g"></table>
-        </div>
-        <div id="_d"><p id="_c">hover over a character</p></div>
-        <script>
-            let docElementFx = (key,create=true) => document[create?"createElement":"getElementById"](key);
-            let range = n => [...Array(n).keys()];
-            let m = (fx) => Math[fx];
-            let getRandomInt = (min, max) => m("floor")(m("random")() * (m("floor")(max) - m("ceil")(min)) + m("ceil")(min));
-            let computeLoop = (iteration, fx) => range(iteration).forEach((k,i) => fx(i));
-            let counter= "0123456789abcdef".split(""); // counter for unicode
-            let getRadical = i => String.fromCodePoint(`0x2f${counter[m("floor")(i/10)%14]}${counter[m("floor")(i/100)%16]}`);
-            let getAlphabet = i => `&#${96+i};`;
-            let first = docElementFx("a");
-            let chars = getRandomInt(5,7);
-            computeLoop(chars, i => {
-                let span = docElementFx("span");
-                let isAlpha = i === 0 || getRandomInt(0, 10) > 3 && i != 4; // increase chances of alphabet if i is 4
-                let randomIndex = getRandomInt(0, isAlpha ? 214 : 26);
-                let ch = isAlpha ? getRadical(randomIndex) : getAlphabet(randomIndex);
-                Object.assign(span.style, {
-                    "transform": `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`,
-                    "font-size": `${getRandomInt(34,36)}px`
-                });
-                span.innerHTML = ch;
-                first.appendChild(span);
+    in practicing chinese characters on worksheets like this growing up, the chinese language seems almost like asemic writing—the individual radicals do not have much meaning and putting them together would make no more or less sense to me. i was simply told to just keep practicing them and that they mean something.
+
+    combining this assembly-friendly quality of chinese characters with letters of the latin alphabet in this way was a fun exploration for me to visualize what living between two parallel cultures is like—being physically located in a diaspora, while my family roots are in a homeland far, far away.
+
+    -->
+    <style>
+        body { margin:0 ; overflow:hidden }
+        a { color:#eee ; text-decoration:none }
+        header { margin:0 ; padding:0 ; background-color:#444 ; color:#bbb ;
+            position:relative ; z-index:1000 }
+        header > h1 { margin:0 ; font-size:12px ; font-family:sans-serif ;
+            border-bottom:1px #999 solid ; padding:5px 10px ; line-height:17px }
+    </style>
+</head>
+<body>
+    <a id="_r" href=".">↺</a>
+    <div id="_m">
+        <table id="_g"></table>
+    </div>
+    <div id="_d"><p id="_c">hover over a character</p></div>
+    <script>
+        let docElementFx = (key,create=true) => document[create?"createElement":"getElementById"](key);
+        let range = n => [...Array(n).keys()];
+        let m = (fx) => Math[fx];
+        let getRandomInt = (min, max) => m("floor")(m("random")() * (m("floor")(max) - m("ceil")(min)) + m("ceil")(min));
+        let computeLoop = (iteration, fx) => range(iteration).forEach((k,i) => fx(i));
+        let counter= "0123456789abcdef".split(""); // counter for unicode
+        let getRadical = i => String.fromCodePoint(`0x2f${counter[m("floor")(i/10)%14]}${counter[m("floor")(i/100)%16]}`);
+        let getAlphabet = i => `&#${96+i};`;
+        let first = docElementFx("a");
+        let chars = getRandomInt(5,7);
+        computeLoop(chars, i => {
+            let span = docElementFx("span");
+            let isAlpha = i === 0 || getRandomInt(0, 10) > 3 && i != 4; // increase chances of alphabet if i is 4
+            let randomIndex = getRandomInt(0, isAlpha ? 214 : 26);
+            let ch = isAlpha ? getRadical(randomIndex) : getAlphabet(randomIndex);
+            Object.assign(span.style, {
+                "transform": `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`,
+                "font-size": `${getRandomInt(34,36)}px`
             });
-            let descString = "";
-            computeLoop(m("floor")((window.innerWidth - 100)/80), () => {
-                let tr = docElementFx("tr");
-                computeLoop(m("round")((window.innerHeight - 200)/80), () => {
-                    let a = first.cloneNode(true);
-                    Array.from(a.childNodes).forEach((sp) => {
-                        sp.addEventListener("click", (e) => {
-                            e.target.classList.add("black");
-                            descString = descString.includes("=") ? sp.innerText + " + " : (descString.length < (chars-1) * 4 ? descString + sp.innerText + " + " : descString + sp.innerText + " = ?");
-                            docElementFx("_c", false).innerText = descString;
-                        });
+            span.innerHTML = ch;
+            first.appendChild(span);
+        });
+        let descString = "";
+        computeLoop(m("floor")((window.innerWidth - 100)/80), () => {
+            let tr = docElementFx("tr");
+            computeLoop(m("round")((window.innerHeight - 200)/80), () => {
+                let a = first.cloneNode(true);
+                Array.from(a.childNodes).forEach((sp) => {
+                    sp.addEventListener("click", (e) => {
+                        e.target.classList.add("black");
+                        descString = descString.includes("=") ? sp.innerText + " + " : (descString.length < (chars-1) * 4 ? descString + sp.innerText + " + " : descString + sp.innerText + " = ?");
+                        docElementFx("_c", false).innerText = descString;
                     });
-                    tr.appendChild(a);
                 });
-                docElementFx("_g", false).appendChild(tr);
+                tr.appendChild(a);
             });
-        </script>
-        <style>
-            #_r, #_d, #_m, table, #_m a, span {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            }
-            body { 
-            background-color: white;
-            margin: 0 auto;
-            font-family: serif;
-            color:#bfbfbf;
-            /* font-family: "Noto Sans CJK JP", Arial, cursive; */
-            /* font-family: 楷体, 楷体_gb2312, "Kaiti SC", Arial, cursive; */
-            /* font-family: "WenQuanYi Micro Hei", "SimSun"; */
-            /* font-family: 'Comic Sans MS', cursive; */
-            } #_r {
-            text-decoration: none;
-            font-weight: 500;
-            padding: 16px 0 8px;
-            } #_m, table, #_m a, span {
-            flex-flow: row wrap;
-            } #_m {
-            width: 100vw;
-            height: 80vh;
-            } #_m a {
-            border: 1px red dashed;
-            box-sizing: border-box;
-            width: 80px;
-            height: 80px;
-            padding: 10px;
-            font-weight: 600;
-            background:
-            linear-gradient(to top left,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%),linear-gradient(to top right,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%);
-            } span {
-            margin: -17px 3px;
-            max-width: 20px;
-            z-index: 100;
-            } span:hover, tr:first-child a:first-child, .black, #_d {
-            color: black;
-            }
-        </style>
-    </body>
+            docElementFx("_g", false).appendChild(tr);
+        });
+    </script>
+    <style>
+        #_r, #_d, #_m, table, #_m a, span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+        body { 
+        background-color: white;
+        margin: 0 auto;
+        font-family: serif;
+        color:#bfbfbf;
+        /* font-family: "Noto Sans CJK JP", Arial, cursive; */
+        /* font-family: 楷体, 楷体_gb2312, "Kaiti SC", Arial, cursive; */
+        /* font-family: "WenQuanYi Micro Hei", "SimSun"; */
+        /* font-family: 'Comic Sans MS', cursive; */
+        } #_r {
+        text-decoration: none;
+        font-weight: 500;
+        padding: 16px 0 8px;
+        } #_m, table, #_m a, span {
+        flex-flow: row wrap;
+        } #_m {
+        width: 100vw;
+        height: 80vh;
+        } #_m a {
+        border: 1px red dashed;
+        box-sizing: border-box;
+        width: 80px;
+        height: 80px;
+        padding: 10px;
+        font-weight: 600;
+        background:
+        linear-gradient(to top left,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%),linear-gradient(to top right,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%);
+        } span {
+        margin: -17px 3px;
+        max-width: 20px;
+        z-index: 100;
+        } span:hover, tr:first-child a:first-child, .black, #_d {
+        color: black;
+        }
+    </style>
+</body>
 </html>
