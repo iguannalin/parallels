@@ -24,9 +24,9 @@
             let chars = getRandomInt(5,7);
             computeLoop(chars, i => {
                 let span = docElementFx("span");
-                let isAlpha = i === 0 || getRandomInt(0, 10) > 3 && i != 4; // increase chances of alphabet if i is 4
-                let randomIndex = getRandomInt(0, isAlpha ? 214 : 26);
-                let ch = isAlpha ? getRadical(randomIndex) : getAlphabet(randomIndex);
+                let isRadical = (i === 0 || getRandomInt(0, 10) > 3) && i != 4; // increase chances of alphabet if i is 4
+                let randomIndex = getRandomInt(0, isRadical ? 214 : 26);
+                let ch = isRadical ? getRadical(randomIndex) : getAlphabet(randomIndex);
                 Object.assign(span.style, {
                     "transform": `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`,
                     "font-size": `${getRandomInt(34,36)}px`
