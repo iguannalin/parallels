@@ -10,7 +10,7 @@
         <div id="_m">
             <table id="_g"></table>
         </div>
-        <div id="_d"><p id="_c">click on a character</p></div>
+        <div id="_d"><p id="_c"></p></div>
         <script>
             let docElementFx = (key,create=true) => document[create?"createElement":"getElementById"](key);
             let range = n => [...Array(n).keys()];
@@ -35,6 +35,7 @@
                 first.appendChild(span);
             });
             let descString = "";
+            let iT = "innerText";
             computeLoop(m("floor")((window.innerWidth - 100)/80), () => {
                 let tr = docElementFx("tr");
                 computeLoop(m("round")((window.innerHeight - 200)/80), () => {
@@ -42,8 +43,8 @@
                     Array.from(a.childNodes).forEach((sp) => {
                         sp.addEventListener("click", (e) => {
                             e.target.classList.add("black");
-                            descString = descString.includes("=") ? sp.innerText + " + " : (descString.length < (chars-1) * 4 ? descString + sp.innerText + " + " : descString + sp.innerText + " = ?");
-                            docElementFx("_c", false).innerText = descString;
+                            descString = descString.includes("=") ? sp[iT] + " + " : (descString.length < (chars-1) * 4 ? descString + sp[iT] + " + " : descString + sp[iT] + " = ?");
+                            docElementFx("_c", false)[iT] = descString;
                         });
                     });
                     tr.appendChild(a);
@@ -82,6 +83,7 @@
             height: 80px;
             padding: 10px;
             font-weight: 600;
+            cursor: crosshair;
             background:
             linear-gradient(to top left,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%),linear-gradient(to top right,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%);
             } span {
