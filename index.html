@@ -10,7 +10,7 @@
         <div id="_m">
             <table id="_g"></table>
         </div>
-        <div id="_d"><p id="_c"></p></div>
+        <div id="_d"></div>
         <script>
             let docElementFx = (key,create=1) => document[create?"createElement":"getElementById"](key);
             let range = n => [...Array(n).keys()];
@@ -22,6 +22,11 @@
             let getAlphabet = i => `&#${96+i};`;
             let first = docElementFx("a");
             let chars = getRandomInt(5,7);
+            let AEL = (el,key,fx) => el.addEventListener(key,fx);
+            let descString = "";
+            let iT = "innerHTML";
+            let w = window;
+            let ac = (el, c) => el.appendChild(c);
             computeLoop(chars, i => {
                 let span = docElementFx("span");
                 let isRadical = (i === 0 || getRandomInt(0, 10) > 3) && i != 4; // increase chances of alphabet if i is 4
@@ -31,25 +36,27 @@
                     "transform": `scale(${getRandomInt(5,15)/10},${getRandomInt(10,13)/10})`,
                     "font-size": `${getRandomInt(34,36)}px`
                 });
-                span.innerHTML = ch;
-                first.appendChild(span);
+                span.data
+                span[iT] = ch;
+                ac(first,span);
+                span.dataset.desc = (isRadical ? "radical " : "alphabet ") + randomIndex;
             });
-            let descString = "";
-            let iT = "innerText";
-            computeLoop(m("floor")((window.innerWidth - 100)/80), () => {
+            computeLoop(m("floor")((w.innerWidth - 100)/80), () => {
                 let tr = docElementFx("tr");
-                computeLoop(m("round")((window.innerHeight - 200)/80), () => {
+                let dd = docElementFx("_d", 0);
+                computeLoop(m("round")((w.innerHeight - 200)/80), () => {
                     let a = first.cloneNode(true);
                     Array.from(a.childNodes).forEach((sp) => {
-                        sp.addEventListener("click", (e) => {
+                        AEL(sp, "click", (e) => {
                             e.target.classList.add("black");
                             descString = descString.includes("=") ? sp[iT] + " + " : (descString.length < (chars-1) * 4 ? descString + sp[iT] + " + " : descString + sp[iT] + " = ?");
-                            docElementFx("_c", 0)[iT] = descString;
+                            dd[iT] = descString;
                         });
+                        AEL(sp, "mouseover", () => dd[iT] = sp.dataset.desc);
                     });
-                    tr.appendChild(a);
+                    ac(tr, a);
                 });
-                docElementFx("_g", 0).appendChild(tr);
+                ac(docElementFx("_g", 0),tr);
             });
         </script>
         <style>
@@ -59,7 +66,6 @@
             align-items: center;
             }
             body { 
-            background-color: white;
             margin: 0 auto;
             font-family: serif;
             color:#bfbfbf;
@@ -69,13 +75,9 @@
             /* font-family: 'Comic Sans MS', cursive; */
             } #_r {
             text-decoration: none;
-            font-weight: 500;
             padding: 16px 0 8px;
             } #_m, table, #_m a, span {
             flex-flow: row wrap;
-            } #_m {
-            width: 100vw;
-            height: 80vh;
             } #_m a {
             border: 1px red dashed;
             box-sizing: border-box;
@@ -83,13 +85,11 @@
             height: 80px;
             padding: 10px;
             font-weight: 600;
-            cursor: crosshair;
             background:
             linear-gradient(to top left,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%),linear-gradient(to top right,transparent 0%,transparent calc(50% - 0.1px),red 50%,transparent calc(50% + 0.1px),transparent 100%);
             } span {
             margin: -17px 3px;
             max-width: 20px;
-            z-index: 100;
             } span:hover, tr:first-child a:first-child, .black, #_d, #_r {
             color: black;
             }
